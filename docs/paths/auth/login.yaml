@@ -1,0 +1,100 @@
+post:
+  tags: [ auth ]
+  summary: Login user
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            identifier:
+              type: string
+            password:
+              type: string
+              format: password
+              example: daffa878
+        examples:
+          identifier username:
+            value:
+              identifier: naufal
+              password: daffa878
+          identifier email:
+            value:
+              identifier: naufaldaffa878@gmail.com
+              password: daffa878
+  responses:
+    "200":
+      description: OK
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              token:
+                type: string
+          example:
+            message: Berhasil login
+            token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3Njg1Mzc5NjcsImV4cCI6MTc2ODU0MTU2NywiZGF0YSI6eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Im5hdWZhbCJ9fQ.Dkf...(truncated)
+    "400":
+      description: Bad Request
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            message: Silakan isi semua input terlebih dulu
+    "401":
+      description: Unauthorized
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          examples:
+            identifier check:
+              value:
+                error: Username atau email salah
+            password check:
+              value:
+                error: Password salah
+    default:
+      description: Unexpected Error
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string

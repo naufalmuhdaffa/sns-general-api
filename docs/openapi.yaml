@@ -1,0 +1,30 @@
+openapi: "3.0.0"
+info:
+  title: SNS API
+  version: "0.1.0"
+servers:
+  - url: http://localhost:{port}
+    variables:
+      port:
+        enum:
+          - '80'
+          - '443'
+          - '8001'
+        default: '8001'
+paths:
+  /register:
+    $ref: ./paths/auth/register.yaml
+  /login:
+    $ref: ./paths/auth/login.yaml
+  /logout:
+    $ref: ./paths/auth/logout.yaml
+  /posts:
+    $ref: ./paths/post/posts.yaml
+  /posts/{id}:
+    $ref: ./paths/post/posts_id.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

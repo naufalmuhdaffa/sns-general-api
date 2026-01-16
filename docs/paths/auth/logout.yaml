@@ -1,0 +1,36 @@
+post:
+  tags: [ auth ]
+  summary: Logout user
+  responses:
+    "200":
+      description: OK
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: Berhasil logout
+    default:
+      description: Unexpected Error
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string

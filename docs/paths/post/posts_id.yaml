@@ -1,0 +1,292 @@
+get:
+  tags: [ post ]
+  summary: Post detail
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: OK
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: public, max-age=60` header"
+          schema:
+            type: string
+          example: public, max-age=60
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              user_id:
+                type: integer
+              username:
+                type: string
+              content:
+                type: string
+              is_owner:
+                type: boolean
+              created_at:
+                type: string
+                format: date-time
+              updated_at:
+                type: string
+                format: date-time
+    "400":
+      description: Bad Request
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: public, max-age=60` header"
+          schema:
+            type: string
+          example: public, max-age=60
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: ID postingan tidak valid
+    "404":
+      description: Not Found
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: public, max-age=60` header"
+          schema:
+            type: string
+          example: public, max-age=60
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Postingan tidak ditemukan
+    default:
+      description: Unexpected Error
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: public, max-age=60` header"
+          schema:
+            type: string
+          example: public, max-age=60
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+
+put:
+  tags: [ post ]
+  summary: Update post
+  security:
+    - BearerAuth: [ ]
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required: true
+          properties:
+            content:
+              type: string
+        example:
+          content: Ini adalah postingan yang diperbarui
+  responses:
+    "200":
+      description: OK
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: Postingan berhasil diperbarui
+    "400":
+      description: Bad Request
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Konten postingan tidak boleh kososng
+    "403":
+      description: Forbidden
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Tidak punya akses untuk mengubah postingan ini
+    "404":
+      description: Not Found
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Postingan tidak ditemukan
+    default:
+      description: Unexpected Error
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+
+delete:
+  tags: [ post ]
+  summary: Delete post
+  security:
+    - BearerAuth: [ ]
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: OK
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: Postingan berhasil dihapus
+    "400":
+      description: Bad Request
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: ID Postingan tidak valid
+    "403":
+      description: Forbidden
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Tidak punya akses untuk menghapus postingan ini
+    "404":
+      description: Not Found
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Postingan tidak ditemukan
+    default:
+      description: Unexpected Error
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string

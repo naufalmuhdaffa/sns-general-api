@@ -1,0 +1,122 @@
+post:
+  tags: [ post ]
+  summary: Create new post
+  security:
+    - bearerAuth: [ ]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            content:
+              type: string
+        example:
+          content: Ini adalah postingan pertama saya di SNS!
+  responses:
+    "201":
+      description: Created
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: Postingan berhasil dibuat
+    "400":
+      description: Bad Request
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            message: Konten postingan tidak boleh kosong
+    default:
+      description: Unexpected Error
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+
+get:
+  tags: [ post ]
+  summary: Post feed
+  parameters:
+    - name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    - name: offset
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+  responses:
+    "200":
+      description: OK
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: public, max-age=60` header"
+          schema:
+            type: string
+          example: public, max-age=60
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              username:
+                type: string
+              content:
+                type: string
+              created_at:
+                type: string
+                format: date-time
+    default:
+      description: Unexpected Error
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: public, max-age=60` header"
+          schema:
+            type: string
+          example: public, max-age=60
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string

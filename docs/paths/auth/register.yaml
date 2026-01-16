@@ -1,0 +1,113 @@
+post:
+  tags: [ auth ]
+  summary: Register new user
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+              maxLength: 50
+              pattern: "^[a-zA-Z0-9_-]+$"
+              example: naufal
+            email:
+              type: string
+              format: email
+              maxLength: 150
+              example: naufaldaffa878@gmail.com
+            password:
+              type: string
+              format: password
+              minLength: 6
+              maxLength: 72
+              example: daffa878
+  responses:
+    "201":
+      description: Created
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: Berhasil terdaftar
+    "400":
+      description: Bad Request
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          examples:
+            empty field:
+              value:
+                error: Silakan isi semua input terlebih dulu
+            username max limit:
+              value:
+                error: Username maksimal 50 karakter
+            username pattern:
+              value:
+                error: Username hanya boleh huruf, angka, dan underscore
+            email max limit:
+              value:
+                error: Email terlalu panjang (maks. 150 karakter)
+            validate email:
+              value:
+                error: Format email tidak valid
+            password min limit:
+              value:
+                error: Password terlalu pendek (min. 6 karakter)
+            password max limit:
+              value:
+                error: Password terlalu panjang (maks. 72 karakter)
+    "409":
+      description: Conflict
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Username sudah terdaftar
+    default:
+      description: Unexpected Error
+      headers:
+        Cache-Control:
+          description: "Response includes `Cache-Control: no-store` header"
+          schema:
+            type: string
+          example: no-store
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
